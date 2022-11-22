@@ -10,7 +10,7 @@ textarea:focus, input:focus{
 
 *{color:inherit;box-sizing:border-box;text-rendering:optimizeLegibility;font-family: sans-serif}
 
-body{margin:0;background:#0c0c0c}
+body{margin:0;background:#10051a}
 
 a,b,u,i,span{font-family:inherit}
 
@@ -43,7 +43,7 @@ main {
     background-position: bottom center;
     background-attachment: fixed;
     border-bottom: solid 1px #191c24;
-    background-color: #0c0c0c;
+    background-color: #10051a;
     /* background-image: url("http://k8s-square-empiricus-assets.s3-website-us-east-1.amazonaws.com/prd/2021/c/LlABqLWobAs8zgh6vKtgArfDl4jImVApQKue8yhg.jpg") !important; */
 }
 
@@ -139,7 +139,7 @@ h3{font-size:1.35em;line-height:1.4em}
 
 p,ul li,ol li{font-size:1em;line-height:1.35em}
 
-footer{width:100%;background-color:#000;color:#fff;font-weight:300;margin:0 auto;padding:1rem;text-align:center}
+footer{width:100%;background-color:#10051a;color:#9298ad;font-weight:300;margin:0 auto;padding:1rem;text-align:center}
 
 footer .logoOelez{width:60px;margin:0 auto 22px}
 
