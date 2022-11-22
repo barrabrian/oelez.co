@@ -43,7 +43,8 @@ main {
     background-position: bottom center;
     background-attachment: fixed;
     border-bottom: solid 1px #191c24;
-    background-color: #10051a;
+    /* background-color: #10051a; */
+    background: linear-gradient(135deg, #1f2431, #10051a 50%);
     /* background-image: url("http://k8s-square-empiricus-assets.s3-website-us-east-1.amazonaws.com/prd/2021/c/LlABqLWobAs8zgh6vKtgArfDl4jImVApQKue8yhg.jpg") !important; */
 }
 
