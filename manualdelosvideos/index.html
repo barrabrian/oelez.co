@@ -30,6 +30,24 @@
 
     <link href="css/style.css" rel="stylesheet">
 
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '3233490383570095');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=3233490383570095&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
 
     <link rel="preload" href="https://scripts.converteai.net/ac36bd24-dd39-4898-8c4c-1bb495867536/players/6356a50b7783ee000ab0c1b6/player.js" as="script">
     <link rel="preload" href="https://cdn.converteai.net/lib/js/smartplayer/v1/smartplayer.min.js" as="script">
@@ -99,9 +117,10 @@
       function redirect() {
         let htmt_pid = "K76801549B";
         let htmt_off = "6da2tg43";
-        location.href = "https://pay.hotmart.com/" + htmt_pid + "?off="+htmt_off+"&checkoutMode=10&split=12&utm_source="+utm_source+"&utm_campaign="+utm_campaign+"&utm_medium="+utm_medium+"&utm_content="+utm_content+"&sck=XBR-CQG29-"+utm_source+"-"+utm_campaign+"-"+utm_medium+"-"+utm_content;
+        location.href = "https://pay.hotmart.com/" + htmt_pid + "?off="+htmt_off+"&checkoutMode=10&split=12&utm_source="+utm_source+"&utm_campaign="+utm_campaign+"&utm_medium="+utm_medium+"&utm_content="+utm_content+"&sck=XBR-MDLV19-"+utm_source+"-"+utm_campaign+"-"+utm_medium+"-"+utm_content;
       }
 
+      fbq('track', 'ViewContent');
 
       setTimeout(()=>{
         document.getElementById("hid").style.visibility = visible;
