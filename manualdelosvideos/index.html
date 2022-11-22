@@ -114,12 +114,13 @@
       var utm_medium = new URL(document.location).searchParams.get("utm_medium");
 
       function redirect() {
+        fbq('track', 'ViewContent');
+
         let htmt_pid = "K76801549B";
         let htmt_off = "6da2tg43";
         location.href = "https://pay.hotmart.com/" + htmt_pid + "?off="+htmt_off+"&checkoutMode=10&split=12&utm_source="+utm_source+"&utm_campaign="+utm_campaign+"&utm_medium="+utm_medium+"&utm_content="+utm_content+"&sck=XBR-MDLV19-"+utm_source+"-"+utm_campaign+"-"+utm_medium+"-"+utm_content;
       }
 
-      fbq('track', 'ViewContent');
 
       setTimeout(()=>{
         document.getElementById("hid").style.visibility = visible;
