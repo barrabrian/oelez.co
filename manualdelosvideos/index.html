@@ -113,7 +113,7 @@
     </footer>
 
     <!-- <script src="https://ssl.geoplugin.net/javascript.gp?k=292af9fb00c1353d" type="text/javascript"></script> -->
-    <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+    <!-- <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script> -->
 
     <script type="text/javascript">
       // document.getElementById("locationJS").innerHTML = geoplugin_city();
@@ -125,10 +125,27 @@
       var utm_content = new URL(document.location).searchParams.get("utm_content");
       var utm_medium = new URL(document.location).searchParams.get("utm_medium");
 
+      var geo_city = "";
+      var geo_countryCode = "";
+
+      var xhttp2 = new XMLHttpRequest();
+      xhttp2.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // console.log(this.response);
+            geo_city = JSON.parse(this.response).cityName;
+            geo_countryCode = JSON.parse(this.response).countryCode;
+            // console.log(geo_city);
+            // console.log(geo_countryCode);
+         }
+      };
+      xhttp2.open("GET", "https://api.ipinfodb.com/v3/ip-city/?format=json&key=25864308b6a77fd90f8bf04b3021a48c1f2fb302a676dd3809054bc1b07f5b42", true);
+      xhttp2.send();
+
+
       function redirect() {
-        if (geoplugin_currencyCode() == 'EUR') {
+        if (geo_city == 'ES') {
           location.href = "https://oelez.systeme.io/mdlv-checkout-eur?tk=XBR-MDLV19-"+utm_source+"-"+utm_campaign+"-"+utm_medium+"-"+utm_content;
-        } else if (geoplugin_currencyCode() == 'COP') {
+        } else if (geo_city == 'CO') {
           location.href = "https://oelez.systeme.io/mdlv-checkout-cop?tk=XBR-MDLV19-"+utm_source+"-"+utm_campaign+"-"+utm_medium+"-"+utm_content;
         } else {
           location.href = "https://oelez.systeme.io/mdlv-checkout?tk=XBR-MDLV19-"+utm_source+"-"+utm_campaign+"-"+utm_medium+"-"+utm_content;
