@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Teste</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+  <body>
+    <form>
+      <label>
+        <span>Name</span>
+        <input name="cardholder-name" class="field" placeholder="Card Holder Name" required/>
+      </label>
+      <label>
+        <span>Phone</span>
+        <input class="field" placeholder="+91 1234567890" type="tel" />
+      </label>
+      <label>
+        <span>ZIP code</span>
+        <input name="address-zip" class="field" placeholder="281000" />
+      </label>
+      <label>
+        <span>Card</span>
+        <div id="card-element" class="field"></div>
+      </label>
+      <button type="submit" class="payment">
+        <i class="fa fa-spinner fa-spin" style="display:none;"></i>Pay $25</button>
+      <div class="outcome">
+        <div class="error"></div>
+        <div class="success"><span class="token"></span>
+        </div>
+      </div>
+    </form>
+  </body>
+
+
+  <script type="text/javascript">
+    var stripe = Stripe('pk_test_51LgWnZFxKq0IKQBoA1pTa7g6yDqBBZcIpuqC8S0bRGtzIEJMW0Rp5GGmSaiD8NfwTwsuCzAVZFLyWWBiSLdngslO00VvSvrIiZ');// your publisher key
+    console.log(stripe);
+
+    var req = new XMLHttpRequest();
+    req.open("GET","https://api.stripe.com/v1/payment_intents",true);
+    req.send();
+    req.onreadystatechange = function(){
+       if(req.readyState == 4 && req.status == 200){
+          // json = JSON.parse(req.responseText);
+          alert(JSON.parse(req.responseText));
+          // window.open("/success","_self");
+       }
+       else{
+          // window.open("/cancel","_self");
+          alert(JSON.parse(req.responseText));
+       }
+    };
+
+    var elements = stripe.elements({
+      // clientSecret: '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',
+      appearance: {theme: 'stripe'},
+      fonts: [
+        {
+          family: 'Open Sans',
+          weight: 400,
+          src: 'local("Open Sans"), local("OpenSans"), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2) format("woff2")',
+          unicodeRange: 'U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215',
+        },
+      ]
+    });
+
+    elements.fetchUpdates().then(function(result) {
+      // Handle result.error
+      console.log(result);
+    });
+
+    var paymentElement = elements.create('payment',{
+      layout: 'tabs',
+      fields: {
+        billingDetails: {
+          name: 'auto',
+          email: 'auto',
+          phone: 'auto',
+        }
+      }
+    });
+
+
+
+    form.addEventListener('submit', async (event) => {
+      stripe.confirmPayment({
+        elements,
+        // confirmParams: {
+        //   return_url: 'https://example.com',
+        // },
+      })
+      .then(function(result) {
+        if (result.error) {
+          // Inform the customer that there was an error.
+          alert(result.error);
+        } else {
+          alert(result);
+        }
+      });
+    });
+
+
+    var card = elements.create('card', {
+      hidePostalCode: true,
+      style: {
+        base: {
+          iconColor: '#F99A52',
+          color: '#32315E',
+          lineHeight: '48px',
+          fontWeight: 400,
+          fontFamily: '"Open Sans", "Helvetica Neue", "Helvetica", sans-serif',
+          fontSize: '15px',
+
+          '::placeholder': {
+            color: '#CFD7DF',
+          }
+        },
+      }
+    });
+    card.mount('#card-element');
+
+    // function setOutcome(result) {
+    //   var successElement = document.querySelector('.success');
+    //   var errorElement = document.querySelector('.error');
+    //   successElement.classList.remove('visible');
+    //   errorElement.classList.remove('visible');
+    //
+    //   if (result.token) {
+    //     $(".fa-spin").show();
+    //     // Use the token to create a charge or a customer
+    //     // https://stripe.com/docs/charges
+    //
+    //     var req = new XMLHttpRequest();
+    //     req.open("GET","/new-card/"+result.token.id,true);
+    //     req.send();
+    //     req.onreadystatechange = function(){
+    //        if(req.readyState == 4 && req.status == 200){
+    //           // json = JSON.parse(req.responseText);
+    //           alert(JSON.parse(req.responseText));
+    //           // window.open("/success","_self");
+    //        }
+    //        else{
+    //           // window.open("/cancel","_self");
+    //           alert(JSON.parse(req.responseText));
+    //        }
+    //     };
+    //     successElement.textContent = result.token.id;
+    //     successElement.classList.add('visible');
+    //   } else if (result.error) {
+    //     errorElement.textContent = result.error.message;
+    //     errorElement.classList.add('visible');
+    //   }
+    // }
+
+    // card.on('change', function(event) {
+    //   setOutcome(event);
+    // });
+
+    // document.querySelector('form').addEventListener('submit', function(e) {
+    //   e.preventDefault();
+    //   var form = document.querySelector('form');
+    //   var extraDetails = {
+    //     name: form.querySelector('input[name=cardholder-name]').value
+    //     // address_zip: form.querySelector('input[name=address-zip]').value
+    //   };
+    //   stripe.createToken(card, extraDetails).then(setOutcome);
+    // });
+
+  </script>
+
+  <style type="text/css">
+    @font-face {
+    font-family: 'Open Sans';
+    font-weight: 400;
+    src: local("Open Sans"), local("OpenSans"), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2) format("woff2");
+    unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+  }
+
+  * {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 15px;
+    font-variant: normal;
+    padding: 0;
+    margin: 0;
+  }
+
+  html {
+    height: 100%;
+  }
+
+  body {
+    background: #F6F9FC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+  }
+
+  form {
+    width: 480px;
+    margin: 20px 0;
+  }
+
+  label {
+    position: relative;
+    color: #6A7C94;
+    font-weight: 400;
+    height: 48px;
+    line-height: 48px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  label > span {
+    width: 115px;
+  }
+
+  .field {
+    background: white;
+    box-sizing: border-box;
+    font-weight: 400;
+    border: 1px solid #CFD7DF;
+    border-radius: 24px;
+    color: #32315E;
+    outline: none;
+    flex: 1;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 20px;
+    cursor: text;
+  }
+
+  .field::-webkit-input-placeholder { color: #CFD7DF; }
+  .field::-moz-placeholder { color: #CFD7DF; }
+
+  .field:focus,
+  .field.StripeElement--focus {
+    border-color: #F99A52;
+  }
+
+  button {
+    float: left;
+    display: block;
+    background-image: linear-gradient(-180deg, #F8B563 0%, #F99A52 100%);
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10), inset 0 -1px 0 0 #E57C45;
+    color: white;
+    border-radius: 24px;
+    border: 0;
+    margin-top: 20px;
+    font-size: 17px;
+    font-weight: 500;
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    outline: none;
+  }
+
+  button:focus {
+    background: #EF8C41;
+  }
+
+  button:active {
+    background: #E17422;
+  }
+
+  .outcome {
+    float: left;
+    width: 100%;
+    padding-top: 8px;
+    min-height: 20px;
+    text-align: center;
+  }
+
+  .success, .error {
+    display: none;
+    font-size: 15px;
+  }
+
+  .success.visible, .error.visible {
+    display: inline;
+  }
+
+  .error {
+    color: #E4584C;
+  }
+
+  .success {
+    color: green;
+    font-size: 20px;
+  }
+
+  .success .token {
+    font-weight: 500;
+    font-size: 20px;
+  }
+  .fa {
+    margin-left: -12px;
+    margin-right: 8px;
+  }
+  </style>
+
+</html>
